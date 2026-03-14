@@ -8,15 +8,14 @@ interface Step {
 }
 
 const STEPS: Step[] = [
-  { type: "command", text: '$ claude "handle my business today"' },
-  { type: "task", text: "\u25B8 Drafting $8K proposal for Webflow redesign client..." },
-  { type: "task", text: "\u25B8 Writing cold outreach for 12 LinkedIn leads..." },
-  { type: "task", text: "\u25B8 Building waitlist landing page from scratch..." },
-  { type: "task", text: "\u25B8 Setting up automated invoice reminders..." },
-  { type: "task", text: "\u25B8 Scheduling 5 social media posts for the week..." },
-  { type: "task", text: "\u25B8 Analyzing last month\u2019s revenue pipeline..." },
+  { type: "command", text: '$ claude "I need to send 3 proposals, update my landing page, and schedule this week\'s content"' },
+  { type: "task", text: "\u25B8 Writing proposal for Sarah\u2019s e-commerce redesign ($6K)..." },
+  { type: "task", text: "\u25B8 Writing proposal for Mark\u2019s SaaS dashboard ($12K)..." },
+  { type: "task", text: "\u25B8 Writing proposal for Apex Co. brand refresh ($4.5K)..." },
+  { type: "task", text: "\u25B8 Updating hero copy and adding testimonial section..." },
+  { type: "task", text: "\u25B8 Drafting 5 LinkedIn posts from this week\u2019s wins..." },
   { type: "timer", text: "" },
-  { type: "done", text: "\u2713 All done. 6 tasks completed. That\u2019s a full team\u2019s day in 2:40." },
+  { type: "done", text: "\u2713 Done. 3 proposals sent, landing page updated, 5 posts scheduled." },
 ];
 
 function formatTime(seconds: number) {
