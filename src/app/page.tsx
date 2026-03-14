@@ -54,8 +54,9 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* ===== HERO ===== */}
-      <section className="relative z-10 page-container flex-1 flex flex-col justify-center">
+      {/* ===== MAIN CONTENT (hero + cards) ===== */}
+      <div className="relative z-10 page-container flex-1 flex flex-col justify-center gap-12">
+        {/* Hero row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Left column */}
           <div>
@@ -66,7 +67,7 @@ export default function Home() {
             </div>
 
             {/* Headline */}
-            <h1 className="animate-fade-in-up-2 text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5">
+            <h1 className="animate-fade-in-up-2 text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-[-0.03em] leading-[1.08] mb-6">
               One person.
               <br />
               <span className="text-[var(--accent)]">
@@ -86,7 +87,7 @@ export default function Home() {
             {/* Form */}
             <div className="animate-fade-in-up-4">
               {status === "success" ? (
-                <div className="inline-flex items-center gap-3 px-5 py-4 rounded-lg border border-emerald-500/20 bg-emerald-500/5">
+                <div className="inline-flex items-center gap-3 px-5 py-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5">
                   <svg
                     className="w-5 h-5 text-emerald-400 shrink-0"
                     fill="none"
@@ -107,7 +108,7 @@ export default function Home() {
               ) : (
                 <form
                   onSubmit={handleSubmit}
-                  className="flex flex-col sm:flex-row gap-3"
+                  className="flex flex-col sm:flex-row sm:items-center gap-3"
                 >
                   <input
                     type="email"
@@ -115,12 +116,12 @@ export default function Home() {
                     placeholder="you@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="input-field w-full sm:w-64 px-4 py-3 rounded-lg"
+                    className="input-field w-full sm:w-64 h-12 px-4 rounded-lg"
                   />
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="cta-button px-6 py-3 rounded-lg cursor-pointer whitespace-nowrap"
+                    className="cta-button h-12 px-6 rounded-lg cursor-pointer whitespace-nowrap"
                   >
                     {status === "loading" ? "Joining..." : "Get early access"}
                   </button>
@@ -186,49 +187,51 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ===== FEATURES + FOOTER ===== */}
-      <section className="relative z-10 page-container pb-6 shrink-0">
-        <div className="sep-line mb-6" />
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div className="feature-card rounded-xl px-6 py-5">
-            <div className="mono-label mb-2">01 / Multiply</div>
-            <h3 className="text-[var(--text-primary)] font-semibold mb-1.5">
-              10x Your Output
-            </h3>
-            <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
-              AI workflows that compress 50-hour weeks into 5-hour sprints. Actual systems you deploy today.
-            </p>
-          </div>
-          <div className="feature-card rounded-xl px-6 py-5">
-            <div className="mono-label mb-2">02 / Build</div>
-            <h3 className="text-[var(--text-primary)] font-semibold mb-1.5">
-              Ship Without a Team
-            </h3>
-            <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
-              Build apps, automate ops, launch products -- all with Claude Code. No developers, no overhead.
-            </p>
-          </div>
-          <div className="feature-card rounded-xl px-6 py-5">
-            <div className="mono-label mb-2">03 / Dominate</div>
-            <h3 className="text-[var(--text-primary)] font-semibold mb-1.5">
-              Outperform Everyone
-            </h3>
-            <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
-              While competitors hire and manage, you ship faster alone. The unfair advantage nobody sees coming.
-            </p>
+        {/* Feature cards - part of the centered content, not stuck to footer */}
+        <div>
+          <div className="sep-line mb-6" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="feature-card rounded-xl px-6 py-5">
+              <div className="mono-label mb-2">01 / Multiply</div>
+              <h3 className="text-[var(--text-primary)] font-semibold mb-1.5">
+                10x Your Output
+              </h3>
+              <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+                AI workflows that compress 50-hour weeks into 5-hour sprints. Actual systems you deploy today.
+              </p>
+            </div>
+            <div className="feature-card rounded-xl px-6 py-5">
+              <div className="mono-label mb-2">02 / Build</div>
+              <h3 className="text-[var(--text-primary)] font-semibold mb-1.5">
+                Ship Without a Team
+              </h3>
+              <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+                Build apps, automate ops, launch products -- all with Claude Code. No developers, no overhead.
+              </p>
+            </div>
+            <div className="feature-card rounded-xl px-6 py-5">
+              <div className="mono-label mb-2">03 / Dominate</div>
+              <h3 className="text-[var(--text-primary)] font-semibold mb-1.5">
+                Outperform Everyone
+              </h3>
+              <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+                While competitors hire and manage, you ship faster alone. The unfair advantage nobody sees coming.
+              </p>
+            </div>
           </div>
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-[var(--text-muted)] text-xs">
-            &copy; {new Date().getFullYear()} Claude University
-          </span>
-          <span className="mono-label opacity-40 text-[0.6rem]">
-            Built with Claude Code
-          </span>
-        </div>
-      </section>
+      </div>
+
+      {/* ===== FOOTER ===== */}
+      <footer className="relative z-10 page-container py-4 shrink-0 flex items-center justify-between">
+        <span className="text-[var(--text-muted)] text-xs">
+          &copy; {new Date().getFullYear()} Claude University
+        </span>
+        <span className="mono-label opacity-40 text-[0.6rem]">
+          Built with Claude Code
+        </span>
+      </footer>
     </div>
   );
 }
