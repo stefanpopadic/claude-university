@@ -1,217 +1,217 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-interface TerminalLine {
-  text: string;
+interface Step {
   type: "command" | "task" | "timer" | "done";
-  delay: number; // ms after previous line
+  text: string;
 }
 
-const LINES: TerminalLine[] = [
-  { text: '$ claude "handle my business today"', type: "command", delay: 500 },
-  { text: "\u25B8 Drafting proposal for $8K Webflow redesign...", type: "task", delay: 1200 },
-  { text: "\u25B8 Writing cold outreach for 12 leads on LinkedIn...", type: "task", delay: 1400 },
-  { text: "\u25B8 Building waitlist landing page from scratch...", type: "task", delay: 1300 },
-  { text: "\u25B8 Setting up automated invoice reminders...", type: "task", delay: 1200 },
-  { text: "\u25B8 Scheduling 5 social posts for the week...", type: "task", delay: 1100 },
-  { text: "\u25B8 Analyzing last month's revenue pipeline...", type: "task", delay: 1400 },
-  { text: "", type: "timer", delay: 800 },
-  { text: "", type: "done", delay: 600 },
+const STEPS: Step[] = [
+  { type: "command", text: '$ claude "handle my business today"' },
+  { type: "task", text: "\u25B8 Drafting $8K proposal for Webflow redesign client..." },
+  { type: "task", text: "\u25B8 Writing cold outreach for 12 LinkedIn leads..." },
+  { type: "task", text: "\u25B8 Building waitlist landing page from scratch..." },
+  { type: "task", text: "\u25B8 Setting up automated invoice reminders..." },
+  { type: "task", text: "\u25B8 Scheduling 5 social media posts for the week..." },
+  { type: "task", text: "\u25B8 Analyzing last month\u2019s revenue pipeline..." },
+  { type: "timer", text: "" },
+  { type: "done", text: "\u2713 All done. 6 tasks completed. That\u2019s a full team\u2019s day in 2:40." },
 ];
 
-function TypewriterText({ text, onDone }: { text: string; onDone: () => void }) {
-  const [displayed, setDisplayed] = useState("");
-  const [charIndex, setCharIndex] = useState(0);
-
-  useEffect(() => {
-    if (charIndex < text.length) {
-      const speed = text[charIndex] === " " ? 15 : 25 + Math.random() * 20;
-      const timeout = setTimeout(() => {
-        setDisplayed(text.slice(0, charIndex + 1));
-        setCharIndex(charIndex + 1);
-      }, speed);
-      return () => clearTimeout(timeout);
-    } else {
-      onDone();
-    }
-  }, [charIndex, text, onDone]);
-
-  return <>{displayed}</>;
+function formatTime(seconds: number) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
 export default function AnimatedTerminal() {
-  const [visibleLines, setVisibleLines] = useState(0);
-  const [linesDone, setLinesDone] = useState<Set<number>>(new Set());
-  const [timerValue, setTimerValue] = useState(0);
-  const [timerDone, setTimerDone] = useState(false);
+  const [lines, setLines] = useState<{ text: string; type: string }[]>([]);
+  const [currentChar, setCurrentChar] = useState("");
+  const [stepIndex, setStepIndex] = useState(0);
+  const [timerSeconds, setTimerSeconds] = useState(0);
+  const [phase, setPhase] = useState<"typing" | "pause" | "timer" | "idle">("pause");
   const [cycle, setCycle] = useState(0);
 
-  // Show lines sequentially
+  // Start first step after mount
   useEffect(() => {
-    if (visibleLines === 0) {
-      setVisibleLines(1);
+    const t = setTimeout(() => setPhase("typing"), 600);
+    return () => clearTimeout(t);
+  }, [cycle]);
+
+  // Typing phase
+  useEffect(() => {
+    if (phase !== "typing") return;
+    if (stepIndex >= STEPS.length) return;
+
+    const step = STEPS[stepIndex];
+
+    // Timer step -- switch to timer phase
+    if (step.type === "timer") {
+      setPhase("timer");
       return;
     }
-  }, [visibleLines]);
 
-  // When a line finishes typing, queue the next one
-  function handleLineDone(index: number) {
-    setLinesDone((prev) => new Set(prev).add(index));
-
-    if (index + 1 < LINES.length) {
-      const nextDelay = LINES[index + 1].delay;
-      setTimeout(() => {
-        setVisibleLines((v) => Math.max(v, index + 2));
-      }, nextDelay);
+    // Done step or regular step -- type it out
+    const fullText = step.text;
+    if (currentChar.length < fullText.length) {
+      const nextChar = fullText[currentChar.length];
+      const speed = nextChar === " " ? 15 : 20 + Math.random() * 15;
+      const t = setTimeout(() => {
+        setCurrentChar(fullText.slice(0, currentChar.length + 1));
+      }, speed);
+      return () => clearTimeout(t);
+    } else {
+      // Line done typing -- commit it
+      setLines((prev) => [...prev, { text: fullText, type: step.type }]);
+      setCurrentChar("");
+      setStepIndex((i) => i + 1);
+      setPhase("pause");
     }
-  }
+  }, [phase, stepIndex, currentChar]);
 
-  // Timer animation
+  // Pause between lines
   useEffect(() => {
-    const timerLineIndex = LINES.findIndex((l) => l.type === "timer");
-    if (!linesDone.has(timerLineIndex - 1)) return;
-    if (visibleLines <= timerLineIndex) return;
-
-    const target = 160; // 2:40 in seconds
-    const interval = setInterval(() => {
-      setTimerValue((v) => {
-        if (v >= target) {
-          clearInterval(interval);
-          setTimerDone(true);
-          // Show the done line
-          setTimeout(() => {
-            setVisibleLines((vl) => Math.max(vl, LINES.length));
-          }, 600);
-          return target;
-        }
-        return v + 1;
-      });
-    }, 12); // Fast count-up
-    return () => clearInterval(interval);
-  }, [linesDone, visibleLines]);
-
-  // Restart loop after completion
-  useEffect(() => {
-    const doneLineIndex = LINES.findIndex((l) => l.type === "done");
-    if (linesDone.has(doneLineIndex)) {
-      const timeout = setTimeout(() => {
-        setVisibleLines(0);
-        setLinesDone(new Set());
-        setTimerValue(0);
-        setTimerDone(false);
+    if (phase !== "pause") return;
+    if (stepIndex >= STEPS.length) {
+      // All done -- restart after 4 seconds
+      const t = setTimeout(() => {
+        setLines([]);
+        setCurrentChar("");
+        setStepIndex(0);
+        setTimerSeconds(0);
         setCycle((c) => c + 1);
-        setTimeout(() => setVisibleLines(1), 300);
-      }, 5000);
-      return () => clearTimeout(timeout);
+      }, 4000);
+      return () => clearTimeout(t);
     }
-  }, [linesDone]);
+    const delay = stepIndex === 0 ? 300 : 800 + Math.random() * 400;
+    const t = setTimeout(() => setPhase("typing"), delay);
+    return () => clearTimeout(t);
+  }, [phase, stepIndex]);
 
-  function formatTime(seconds: number) {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s.toString().padStart(2, "0")}`;
-  }
+  // Timer phase -- count from 0:00 to 2:40
+  useEffect(() => {
+    if (phase !== "timer") return;
+    if (timerSeconds >= 160) {
+      // Timer done -- commit timer line, move to done step
+      setLines((prev) => [...prev, { text: `Completed in ${formatTime(160)}`, type: "timer" }]);
+      setStepIndex((i) => i + 1);
+      setPhase("pause");
+      return;
+    }
+    const t = setTimeout(() => {
+      setTimerSeconds((s) => s + 1);
+    }, 10);
+    return () => clearTimeout(t);
+  }, [phase, timerSeconds]);
 
   return (
     <div
       key={cycle}
-      className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden shadow-2xl shadow-black/50"
+      style={{
+        borderRadius: 12,
+        border: "1px solid var(--border)",
+        background: "var(--bg-elevated)",
+        overflow: "hidden",
+        boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
+      }}
     >
       {/* Title bar */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)]">
-        <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-        <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-        <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-        <span className="ml-3 text-xs text-[var(--text-muted)] font-[family-name:var(--font-mono)]">
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "12px 16px",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
+        <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#ff5f57" }} />
+        <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#ffbd2e" }} />
+        <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#28c840" }} />
+        <span
+          style={{
+            marginLeft: 12,
+            fontSize: "0.75rem",
+            color: "var(--text-muted)",
+            fontFamily: "'JetBrains Mono', monospace",
+          }}
+        >
           your-business
         </span>
       </div>
 
-      {/* Terminal content */}
-      <div className="p-5 font-[family-name:var(--font-mono)] text-[13px] leading-relaxed min-h-[280px]">
-        {LINES.map((line, i) => {
-          if (i >= visibleLines) return null;
+      {/* Terminal body */}
+      <div
+        style={{
+          padding: 20,
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "0.8125rem",
+          lineHeight: 1.8,
+          minHeight: 280,
+        }}
+      >
+        {/* Committed lines */}
+        {lines.map((line, i) => (
+          <div
+            key={i}
+            style={{
+              color:
+                line.type === "command"
+                  ? "var(--text-muted)"
+                  : line.type === "task"
+                  ? "var(--accent)"
+                  : line.type === "timer"
+                  ? "var(--text-secondary)"
+                  : "#34d399",
+              marginTop: line.type === "timer" || line.type === "done" ? 12 : 4,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            {line.type === "task" && (
+              <span style={{ color: "#34d399", fontSize: "0.7rem" }}>done</span>
+            )}
+            {line.type !== "task" && line.text}
+            {line.type === "task" && (
+              <span style={{ color: "var(--accent)", opacity: 0.6 }}>
+                {line.text}
+              </span>
+            )}
+          </div>
+        ))}
 
-          if (line.type === "command") {
-            return (
-              <div key={i} className="text-[var(--text-muted)]">
-                <TypewriterText
-                  text={line.text}
-                  onDone={() => handleLineDone(i)}
-                />
-              </div>
-            );
-          }
+        {/* Currently typing line */}
+        {currentChar && (
+          <div
+            style={{
+              color:
+                STEPS[stepIndex]?.type === "done"
+                  ? "#34d399"
+                  : STEPS[stepIndex]?.type === "command"
+                  ? "var(--text-muted)"
+                  : "var(--accent)",
+              marginTop: STEPS[stepIndex]?.type === "done" ? 12 : 4,
+            }}
+          >
+            {currentChar}
+            <span className="cursor-blink" />
+          </div>
+        )}
 
-          if (line.type === "task") {
-            return (
-              <div key={i} className="text-[var(--accent)] mt-1.5">
-                <TypewriterText
-                  text={line.text}
-                  onDone={() => handleLineDone(i)}
-                />
-                {linesDone.has(i) && (
-                  <span className="text-emerald-400 ml-2 text-xs">done</span>
-                )}
-              </div>
-            );
-          }
+        {/* Timer counting */}
+        {phase === "timer" && (
+          <div style={{ color: "var(--text-secondary)", marginTop: 12, display: "flex", alignItems: "center", gap: 8 }}>
+            <span className="animate-glow-pulse" style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent)", display: "inline-block" }} />
+            Running... {formatTime(timerSeconds)}
+          </div>
+        )}
 
-          if (line.type === "timer") {
-            return (
-              <div
-                key={i}
-                className="text-[var(--text-muted)] mt-3 flex items-center gap-2"
-              >
-                <span className="text-[var(--text-secondary)]">
-                  {timerDone ? (
-                    `Completed in ${formatTime(timerValue)}`
-                  ) : (
-                    <>Running... {formatTime(timerValue)}</>
-                  )}
-                </span>
-                {!timerDone && (
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-glow-pulse" />
-                )}
-              </div>
-            );
-          }
-
-          if (line.type === "done") {
-            return (
-              <div
-                key={i}
-                className="text-emerald-400 mt-3 flex items-center gap-2"
-              >
-                <svg
-                  className="w-4 h-4 shrink-0"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <TypewriterText
-                  text="All done. 6 tasks completed. That's a team's full day in under 3 minutes."
-                  onDone={() => handleLineDone(i)}
-                />
-              </div>
-            );
-          }
-
-          return null;
-        })}
-
-        {/* Cursor at the bottom when done */}
-        {linesDone.has(LINES.length - 1) && (
-          <div className="mt-3 text-[var(--text-muted)] flex items-center">
-            $<span className="cursor-blink ml-1" />
+        {/* Final cursor when all done */}
+        {stepIndex >= STEPS.length && lines.length > 0 && (
+          <div style={{ color: "var(--text-muted)", marginTop: 12, display: "flex", alignItems: "center" }}>
+            $<span className="cursor-blink" style={{ marginLeft: 4 }} />
           </div>
         )}
       </div>
