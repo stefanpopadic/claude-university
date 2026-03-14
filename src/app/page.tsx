@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import AnimatedTerminal from "./terminal";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -43,43 +44,43 @@ export default function Home() {
       <div className="glow-orb-secondary" style={{ bottom: "0", left: "-200px" }} />
 
       {/* ===== NAV ===== */}
-      <nav className="relative z-10 page-container py-5 flex items-center justify-between shrink-0">
+      <nav className="relative z-10 page-container" style={{ paddingTop: 20, paddingBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
         <div className="animate-slide-in">
-          <span className="text-[var(--text-primary)] font-semibold tracking-tight text-lg">
+          <span style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.125rem", letterSpacing: "-0.01em" }}>
             Claude University
           </span>
         </div>
-        <div className="animate-fade-in-up-1 mono-label opacity-60">
+        <div className="animate-fade-in-up-1 mono-label" style={{ opacity: 0.6 }}>
           est. 2026
         </div>
       </nav>
 
-      {/* ===== MAIN CONTENT (hero + cards) ===== */}
-      <div className="relative z-10 page-container flex-1 flex flex-col justify-center gap-12">
+      {/* ===== MAIN CONTENT ===== */}
+      <div className="relative z-10 page-container" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: 48 }}>
         {/* Hero row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
           {/* Left column */}
           <div>
             {/* Status badge */}
-            <div className="animate-fade-in-up-1 mono-label mb-5 flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-[var(--accent)] animate-glow-pulse" />
+            <div className="animate-fade-in-up-1 mono-label" style={{ marginBottom: 20, display: "flex", alignItems: "center", gap: 12 }}>
+              <span className="animate-glow-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent)", display: "inline-block" }} />
               <span>Waitlist open</span>
             </div>
 
             {/* Headline */}
-            <h1 className="animate-fade-in-up-2 text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-[-0.03em] leading-[1.08] mb-6">
+            <h1 className="animate-fade-in-up-2" style={{ fontSize: "3.5rem", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 24 }}>
               One person.
               <br />
-              <span className="text-[var(--accent)]">
+              <span style={{ color: "var(--accent)" }}>
                 Ten people&apos;s output.
               </span>
             </h1>
 
             {/* Subheadline */}
-            <p className="animate-fade-in-up-3 text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed mb-8 max-w-[440px]">
+            <p className="animate-fade-in-up-3" style={{ fontSize: "1.125rem", color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 32, maxWidth: 440 }}>
               Learn the AI workflows that let solopreneurs and freelancers
               outperform entire teams.{" "}
-              <span className="text-[var(--text-primary)] font-medium">
+              <span style={{ color: "var(--text-primary)", fontWeight: 500 }}>
                 Claude is your unfair advantage.
               </span>
             </p>
@@ -87,135 +88,72 @@ export default function Home() {
             {/* Form */}
             <div className="animate-fade-in-up-4">
               {status === "success" ? (
-                <div className="inline-flex items-center gap-3 px-5 py-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5">
-                  <svg
-                    className="w-5 h-5 text-emerald-400 shrink-0"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 12, padding: "12px 20px", borderRadius: 10, border: "1px solid rgba(16, 185, 129, 0.2)", background: "rgba(16, 185, 129, 0.05)" }}>
+                  <svg style={{ width: 20, height: 20, color: "#34d399", flexShrink: 0 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-emerald-400 font-medium">
+                  <span style={{ color: "#34d399", fontWeight: 500 }}>
                     You&apos;re in. We&apos;ll let you know when we launch.
                   </span>
                 </div>
               ) : (
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex flex-col sm:flex-row sm:items-center gap-3"
-                >
+                <form onSubmit={handleSubmit} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <input
                     type="email"
                     required
                     placeholder="you@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="input-field w-full sm:w-64 h-12 px-4 rounded-lg"
+                    className="input-field"
+                    style={{ width: 260 }}
                   />
-                  <button
-                    type="submit"
-                    disabled={status === "loading"}
-                    className="cta-button h-12 px-6 rounded-lg cursor-pointer whitespace-nowrap"
-                  >
+                  <button type="submit" disabled={status === "loading"} className="cta-button">
                     {status === "loading" ? "Joining..." : "Get early access"}
                   </button>
                 </form>
               )}
               {status === "error" && (
-                <p className="mt-3 text-sm text-red-400 font-[family-name:var(--font-mono)]">
+                <p style={{ marginTop: 12, fontSize: "0.875rem", color: "#f87171", fontFamily: "var(--font-mono)" }}>
                   {errorMsg}
                 </p>
               )}
             </div>
           </div>
 
-          {/* Right column - Terminal */}
-          <div className="animate-fade-in-up-5 hidden lg:block">
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden shadow-2xl shadow-black/50">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)]">
-                <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-                <span className="ml-3 text-xs text-[var(--text-muted)] font-[family-name:var(--font-mono)]">
-                  your-business
-                </span>
-              </div>
-              <div className="p-6 font-[family-name:var(--font-mono)] text-sm leading-loose">
-                <div className="text-[var(--text-muted)]">
-                  $ claude &quot;run my business today&quot;
-                </div>
-                <div className="mt-4 space-y-2">
-                  <div className="text-[var(--accent)]">
-                    {"\u25B8"} Writing 3 client proposals...
-                  </div>
-                  <div className="text-[var(--accent)]">
-                    {"\u25B8"} Building landing page from scratch...
-                  </div>
-                  <div className="text-[var(--accent)]">
-                    {"\u25B8"} Automating invoices + follow-ups...
-                  </div>
-                  <div className="text-[var(--accent)]">
-                    {"\u25B8"} Scheduling content for the week...
-                  </div>
-                  <div className="text-emerald-400 mt-4 flex items-center gap-2">
-                    <svg
-                      className="w-4 h-4 shrink-0"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Done. That was 10 people&apos;s work in 10 minutes.
-                  </div>
-                </div>
-                <div className="mt-4 text-[var(--text-muted)] flex items-center">
-                  $<span className="cursor-blink ml-1" />
-                </div>
-              </div>
-            </div>
+          {/* Right column - Animated Terminal */}
+          <div className="animate-fade-in-up-5">
+            <AnimatedTerminal />
           </div>
         </div>
 
-        {/* Feature cards - part of the centered content, not stuck to footer */}
+        {/* Feature cards */}
         <div>
-          <div className="sep-line mb-6" />
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="feature-card rounded-xl px-6 py-5">
-              <div className="mono-label mb-2">01 / Multiply</div>
-              <h3 className="text-[var(--text-primary)] font-semibold mb-1.5">
+          <div className="sep-line" style={{ marginBottom: 24 }} />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+            <div className="feature-card">
+              <div className="mono-label" style={{ marginBottom: 8 }}>01 / Multiply</div>
+              <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
                 10x Your Output
               </h3>
-              <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.8125rem", lineHeight: 1.6 }}>
                 AI workflows that compress 50-hour weeks into 5-hour sprints. Actual systems you deploy today.
               </p>
             </div>
-            <div className="feature-card rounded-xl px-6 py-5">
-              <div className="mono-label mb-2">02 / Build</div>
-              <h3 className="text-[var(--text-primary)] font-semibold mb-1.5">
+            <div className="feature-card">
+              <div className="mono-label" style={{ marginBottom: 8 }}>02 / Build</div>
+              <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
                 Ship Without a Team
               </h3>
-              <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.8125rem", lineHeight: 1.6 }}>
                 Build apps, automate ops, launch products -- all with Claude Code. No developers, no overhead.
               </p>
             </div>
-            <div className="feature-card rounded-xl px-6 py-5">
-              <div className="mono-label mb-2">03 / Dominate</div>
-              <h3 className="text-[var(--text-primary)] font-semibold mb-1.5">
+            <div className="feature-card">
+              <div className="mono-label" style={{ marginBottom: 8 }}>03 / Dominate</div>
+              <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
                 Outperform Everyone
               </h3>
-              <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.8125rem", lineHeight: 1.6 }}>
                 While competitors hire and manage, you ship faster alone. The unfair advantage nobody sees coming.
               </p>
             </div>
@@ -224,11 +162,11 @@ export default function Home() {
       </div>
 
       {/* ===== FOOTER ===== */}
-      <footer className="relative z-10 page-container py-4 shrink-0 flex items-center justify-between">
-        <span className="text-[var(--text-muted)] text-xs">
+      <footer className="relative z-10 page-container" style={{ paddingTop: 16, paddingBottom: 16, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>
           &copy; {new Date().getFullYear()} Claude University
         </span>
-        <span className="mono-label opacity-40 text-[0.6rem]">
+        <span className="mono-label" style={{ opacity: 0.4, fontSize: "0.6rem" }}>
           Built with Claude Code
         </span>
       </footer>
