@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Claude University — Master AI. Scale Solo.",
+  title: "Claude University — The only hire you'll ever need.",
   description:
-    "Courses, workflows, and tools to help freelancers and solopreneurs use Claude to do the work of a 5-person team. No coding required.",
+    "Tutorials, workflows, and courses that teach solopreneurs how to use Claude to do the work of an entire team.",
   openGraph: {
-    title: "Claude University — Master AI. Scale Solo.",
+    title: "Claude University — The only hire you'll ever need.",
     description:
-      "Courses, workflows, and tools to help freelancers and solopreneurs use Claude to do the work of a 5-person team.",
+      "Tutorials, workflows, and courses that teach solopreneurs how to use Claude to do the work of an entire team.",
     url: "https://claudeuniversity.com",
     siteName: "Claude University",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Claude University — Master AI. Scale Solo.",
+    title: "Claude University — The only hire you'll ever need.",
     description:
-      "Courses, workflows, and tools to help freelancers and solopreneurs use Claude to do the work of a 5-person team.",
+      "Tutorials, workflows, and courses that teach solopreneurs how to use Claude to do the work of an entire team.",
   },
 };
 

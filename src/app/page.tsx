@@ -69,20 +69,17 @@ export default function Home() {
 
             {/* Headline */}
             <h1 className="animate-fade-in-up-2" style={{ fontSize: "3.5rem", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 24 }}>
-              One person.
+              Learn Claude.
               <br />
               <span style={{ color: "var(--accent)" }}>
-                Ten people&apos;s output.
+                The only hire you&apos;ll ever need.
               </span>
             </h1>
 
             {/* Subheadline */}
             <p className="animate-fade-in-up-3" style={{ fontSize: "1.125rem", color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 32, maxWidth: 440 }}>
-              Learn the AI workflows that let solopreneurs and freelancers
-              outperform entire teams.{" "}
-              <span style={{ color: "var(--text-primary)", fontWeight: 500 }}>
-                Claude is your unfair advantage.
-              </span>
+              Tutorials, workflows, and courses that teach solopreneurs
+              how to use Claude to do the work of an entire team.
             </p>
 
             {/* Form */}
