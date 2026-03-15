@@ -49,9 +49,9 @@ export default function Home() {
         <div className="animate-slide-in" style={{ color: "var(--text-primary)" }}>
           <Logo height={38} />
         </div>
-        <div className="animate-fade-in-up-1 mono-label" style={{ opacity: 0.6 }}>
-          est. 2026
-        </div>
+        <a href="/about" className="animate-fade-in-up-1 nav-link">
+          About
+        </a>
       </nav>
 
       {/* ===== MAIN CONTENT ===== */}

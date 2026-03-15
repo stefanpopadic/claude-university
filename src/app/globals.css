@@ -147,6 +147,20 @@ body {
   color: var(--accent);
 }
 
+/* ---- Nav link ---- */
+.nav-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
 /* ---- Separator line ---- */
 .sep-line {
   height: 1px;
