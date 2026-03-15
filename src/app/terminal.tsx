@@ -141,15 +141,7 @@ export default function AnimatedTerminal() {
       </div>
 
       {/* Terminal body */}
-      <div
-        style={{
-          padding: 20,
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "0.8125rem",
-          lineHeight: 1.8,
-          minHeight: 280,
-        }}
-      >
+      <div className="terminal-body">
         {/* Committed lines */}
         {lines.map((line, i) => (
           <div

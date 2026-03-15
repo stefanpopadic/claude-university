@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import AnimatedTerminal from "./terminal";
+import Logo from "./logo";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -36,7 +37,7 @@ export default function Home() {
   }
 
   return (
-    <div className="relative h-screen overflow-hidden dot-grid flex flex-col">
+    <div className="relative min-h-screen overflow-x-hidden dot-grid flex flex-col">
       <div className="noise-overlay" />
 
       {/* Glow orbs */}
@@ -45,10 +46,8 @@ export default function Home() {
 
       {/* ===== NAV ===== */}
       <nav className="relative z-10 page-container" style={{ paddingTop: 20, paddingBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
-        <div className="animate-slide-in">
-          <span style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.125rem", letterSpacing: "-0.01em" }}>
-            Claude University
-          </span>
+        <div className="animate-slide-in" style={{ color: "var(--text-primary)" }}>
+          <Logo height={24} />
         </div>
         <div className="animate-fade-in-up-1 mono-label" style={{ opacity: 0.6 }}>
           est. 2026
@@ -56,9 +55,9 @@ export default function Home() {
       </nav>
 
       {/* ===== MAIN CONTENT ===== */}
-      <div className="relative z-10 page-container" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: 48 }}>
+      <div className="relative z-10 page-container main-content">
         {/* Hero row */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+        <div className="hero-grid">
           {/* Left column */}
           <div>
             {/* Status badge */}
@@ -68,7 +67,7 @@ export default function Home() {
             </div>
 
             {/* Headline */}
-            <h1 className="animate-fade-in-up-2" style={{ fontSize: "3.5rem", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 24 }}>
+            <h1 className="animate-fade-in-up-2 hero-headline">
               Learn Claude.
               <br />
               <span style={{ color: "var(--accent)" }}>
@@ -77,7 +76,7 @@ export default function Home() {
             </h1>
 
             {/* Subheadline */}
-            <p className="animate-fade-in-up-3" style={{ fontSize: "1.125rem", color: "var(--text-secondary)", lineHeight: 1.6, marginBottom: 32, maxWidth: 440 }}>
+            <p className="animate-fade-in-up-3 hero-subheadline">
               Tutorials, workflows, and courses that teach solopreneurs
               how to use Claude to do the work of an entire team.
             </p>
@@ -85,7 +84,7 @@ export default function Home() {
             {/* Form */}
             <div className="animate-fade-in-up-4">
               {status === "success" ? (
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 12, padding: "12px 20px", borderRadius: 10, border: "1px solid rgba(16, 185, 129, 0.2)", background: "rgba(16, 185, 129, 0.05)" }}>
+                <div className="success-message">
                   <svg style={{ width: 20, height: 20, color: "#34d399", flexShrink: 0 }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
@@ -94,7 +93,7 @@ export default function Home() {
                   </span>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <form onSubmit={handleSubmit} className="waitlist-form">
                   <input
                     type="email"
                     required
@@ -102,7 +101,6 @@ export default function Home() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="input-field"
-                    style={{ width: 260 }}
                   />
                   <button type="submit" disabled={status === "loading"} className="cta-button">
                     {status === "loading" ? "Joining..." : "Get early access"}
@@ -126,7 +124,7 @@ export default function Home() {
         {/* Feature cards */}
         <div>
           <div className="sep-line" style={{ marginBottom: 24 }} />
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+          <div className="features-grid">
             <div className="feature-card">
               <div className="mono-label" style={{ marginBottom: 8 }}>01 / Multiply</div>
               <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
