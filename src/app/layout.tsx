@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import PageWrapper from "@/components/PageWrapper";
 
 export const metadata: Metadata = {
   title: "Clauni — Learn Claude AI. The only employee you'll ever need.",
@@ -42,7 +45,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <PageWrapper>
+          <Navigation />
+          <main className="relative z-10" style={{ flex: 1 }}>
+            {children}
+          </main>
+          <Footer />
+        </PageWrapper>
+      </body>
     </html>
   );
 }
