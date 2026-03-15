@@ -47,7 +47,7 @@ export default function Home() {
       {/* ===== NAV ===== */}
       <nav className="relative z-10 page-container" style={{ paddingTop: 20, paddingBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
         <div className="animate-slide-in" style={{ color: "var(--text-primary)" }}>
-          <Logo height={32} />
+          <Logo height={38} />
         </div>
         <div className="animate-fade-in-up-1 mono-label" style={{ opacity: 0.6 }}>
           est. 2026
