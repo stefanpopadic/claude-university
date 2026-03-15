@@ -63,22 +63,22 @@ export default function Home() {
             {/* Status badge */}
             <div className="animate-fade-in-up-1 mono-label" style={{ marginBottom: 20, display: "flex", alignItems: "center", gap: 12 }}>
               <span className="animate-glow-pulse" style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent)", display: "inline-block" }} />
-              <span>Waitlist open</span>
+              <span>Now hiring — one AI employee</span>
             </div>
 
             {/* Headline */}
             <h1 className="animate-fade-in-up-2 hero-headline">
-              Learn Claude.
+              Stop hiring.
               <br />
               <span style={{ color: "var(--accent)" }}>
-                The only hire you&apos;ll ever need.
+                Meet your AI employee.
               </span>
             </h1>
 
             {/* Subheadline */}
             <p className="animate-fade-in-up-3 hero-subheadline">
-              Tutorials, workflows, and courses that teach solopreneurs
-              how to use Claude to do the work of an entire team.
+              Clauni writes your proposals, builds your apps, creates your content,
+              and runs your ops. One AI. Zero payroll.
             </p>
 
             {/* Form */}
@@ -89,7 +89,7 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                   <span style={{ color: "#34d399", fontWeight: 500 }}>
-                    You&apos;re in. We&apos;ll let you know when we launch.
+                    You&apos;re on the list. We&apos;ll let you know when Clauni is ready to work.
                   </span>
                 </div>
               ) : (
@@ -103,7 +103,7 @@ export default function Home() {
                     className="input-field"
                   />
                   <button type="submit" disabled={status === "loading"} className="cta-button">
-                    {status === "loading" ? "Joining..." : "Get early access"}
+                    {status === "loading" ? "Joining..." : "Hire Clauni"}
                   </button>
                 </form>
               )}
@@ -126,30 +126,30 @@ export default function Home() {
           <div className="sep-line" style={{ marginBottom: 24 }} />
           <div className="features-grid">
             <div className="feature-card">
-              <div className="mono-label" style={{ marginBottom: 8 }}>01 / Multiply</div>
+              <div className="mono-label" style={{ marginBottom: 8 }}>01 / Execute</div>
               <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
-                10x Your Output
+                Does the Actual Work
               </h3>
               <p style={{ color: "var(--text-secondary)", fontSize: "0.8125rem", lineHeight: 1.6 }}>
-                AI workflows that compress 50-hour weeks into 5-hour sprints. Actual systems you deploy today.
+                Not another chatbot. Clauni writes proposals, builds landing pages, drafts emails, and ships code — start to finish.
               </p>
             </div>
             <div className="feature-card">
-              <div className="mono-label" style={{ marginBottom: 8 }}>02 / Build</div>
+              <div className="mono-label" style={{ marginBottom: 8 }}>02 / Replace</div>
               <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
-                Ship Without a Team
+                No Team Required
               </h3>
               <p style={{ color: "var(--text-secondary)", fontSize: "0.8125rem", lineHeight: 1.6 }}>
-                Build apps, automate ops, launch products -- all with Claude Code. No developers, no overhead.
+                Skip the hiring, the onboarding, the management. One AI employee handles what used to take a team of five.
               </p>
             </div>
             <div className="feature-card">
-              <div className="mono-label" style={{ marginBottom: 8 }}>03 / Dominate</div>
+              <div className="mono-label" style={{ marginBottom: 8 }}>03 / Scale</div>
               <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
-                Outperform Everyone
+                Works While You Sleep
               </h3>
               <p style={{ color: "var(--text-secondary)", fontSize: "0.8125rem", lineHeight: 1.6 }}>
-                While competitors hire and manage, you ship faster alone. The unfair advantage nobody sees coming.
+                24/7 output. No sick days, no burnout, no salary negotiations. Just results, every single day.
               </p>
             </div>
           </div>
