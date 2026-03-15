@@ -8,8 +8,9 @@ export function generateStaticParams() {
   return courses.map((course) => ({ slug: course.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const course = courses.find((c) => c.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const course = courses.find((c) => c.slug === slug);
   if (!course) return {};
   return {
     title: `${course.title} — Clauni`,
@@ -17,8 +18,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function CoursePage({ params }: { params: { slug: string } }) {
-  const course = courses.find((c) => c.slug === params.slug);
+export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const course = courses.find((c) => c.slug === slug);
   if (!course) notFound();
 
   const badgeStatus = course.price === 0 ? "free" : course.status;
