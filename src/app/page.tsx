@@ -159,7 +159,7 @@ export default function Home() {
       {/* ===== FOOTER ===== */}
       <footer className="relative z-10 page-container" style={{ paddingTop: 16, paddingBottom: 16, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>
-          &copy; {new Date().getFullYear()} Claude University
+          &copy; {new Date().getFullYear()} Clauni
         </span>
         <span className="mono-label" style={{ opacity: 0.4, fontSize: "0.6rem" }}>
           Built with Claude Code

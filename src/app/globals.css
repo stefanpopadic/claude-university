@@ -2,18 +2,18 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #050505;
-  --bg-elevated: #0a0a0a;
-  --bg-surface: #111111;
-  --text-primary: #f0f0f0;
-  --text-secondary: #888888;
-  --text-muted: #555555;
-  --accent: #F59E0B;
-  --accent-dim: #B45309;
-  --accent-glow: rgba(245, 158, 11, 0.15);
-  --accent-glow-strong: rgba(245, 158, 11, 0.3);
-  --border: rgba(255, 255, 255, 0.06);
-  --border-accent: rgba(245, 158, 11, 0.2);
+  --bg-primary: #252122;
+  --bg-elevated: #1e1a1b;
+  --bg-surface: #2e2829;
+  --text-primary: #F2EBDB;
+  --text-secondary: #a89f90;
+  --text-muted: #6b6260;
+  --accent: #FCB257;
+  --accent-dim: #d4913a;
+  --accent-glow: rgba(252, 178, 87, 0.12);
+  --accent-glow-strong: rgba(252, 178, 87, 0.25);
+  --border: rgba(242, 235, 219, 0.08);
+  --border-accent: rgba(252, 178, 87, 0.2);
 }
 
 @theme inline {
@@ -55,7 +55,7 @@ body {
 
 /* ---- Dot grid background ---- */
 .dot-grid {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(242, 235, 219, 0.04) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
@@ -76,7 +76,7 @@ body {
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(242, 235, 219, 0.04) 0%, transparent 70%);
   filter: blur(60px);
   pointer-events: none;
   z-index: 0;
@@ -202,7 +202,7 @@ body {
 .input-field:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 20px var(--accent-glow), inset 0 0 20px rgba(245, 158, 11, 0.03);
+  box-shadow: 0 0 20px var(--accent-glow), inset 0 0 20px rgba(252, 178, 87, 0.03);
 }
 
 .input-field::placeholder {
@@ -213,7 +213,7 @@ body {
 /* ---- CTA button ---- */
 .cta-button {
   background: var(--accent);
-  color: #050505;
+  color: #252122;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 600;
   font-size: 0.9375rem;

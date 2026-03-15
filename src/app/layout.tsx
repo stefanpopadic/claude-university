@@ -2,20 +2,20 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Claude University — The only hire you'll ever need.",
+  title: "Clauni — The only hire you'll ever need.",
   description:
     "Tutorials, workflows, and courses that teach solopreneurs how to use Claude to do the work of an entire team.",
   openGraph: {
-    title: "Claude University — The only hire you'll ever need.",
+    title: "Clauni — The only hire you'll ever need.",
     description:
       "Tutorials, workflows, and courses that teach solopreneurs how to use Claude to do the work of an entire team.",
     url: "https://claudeuniversity.com",
-    siteName: "Claude University",
+    siteName: "Clauni",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Claude University — The only hire you'll ever need.",
+    title: "Clauni — The only hire you'll ever need.",
     description:
       "Tutorials, workflows, and courses that teach solopreneurs how to use Claude to do the work of an entire team.",
   },
