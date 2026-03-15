@@ -2,34 +2,36 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Clauni — The only employee you'll ever need.",
+  title: "Clauni — Learn Claude AI. The only employee you'll ever need.",
   description:
-    "Clauni is your AI employee. It writes proposals, builds apps, creates content, and runs operations — so you never have to hire again.",
+    "Clauni teaches solopreneurs and freelancers how to use Claude AI to replace an entire team. Workflows, tutorials, and courses that turn Claude into your most valuable employee.",
   keywords: [
-    "AI employee",
-    "AI assistant for business",
-    "AI for solopreneurs",
-    "AI for freelancers",
-    "hire AI instead of employees",
-    "Claude AI automation",
-    "one-person business AI",
-    "AI that does the work",
-    "solopreneur AI tools",
-    "replace hiring with AI",
+    "learn Claude AI",
+    "Claude AI tutorials",
+    "Claude AI courses",
+    "Claude for solopreneurs",
+    "Claude for freelancers",
+    "AI workflows for business",
+    "Claude Code tutorials",
+    "how to use Claude AI",
+    "AI productivity for solopreneurs",
+    "one-person business with AI",
+    "Claude AI training",
+    "solopreneur AI workflows",
   ],
   openGraph: {
-    title: "Clauni — The only employee you'll ever need.",
+    title: "Clauni — Learn Claude AI. The only employee you'll ever need.",
     description:
-      "Stop hiring. Start shipping. Clauni is the AI employee that writes proposals, builds apps, creates content, and runs your business.",
+      "Clauni teaches solopreneurs how to use Claude AI to replace an entire team. Workflows, tutorials, and courses that turn Claude into your most valuable employee.",
     url: "https://claudeuniversity.com",
     siteName: "Clauni",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Clauni — The only employee you'll ever need.",
+    title: "Clauni — Learn Claude AI. The only employee you'll ever need.",
     description:
-      "Stop hiring. Start shipping. Clauni is the AI employee that writes proposals, builds apps, creates content, and runs your business.",
+      "Clauni teaches solopreneurs how to use Claude AI to replace an entire team. Workflows, tutorials, and courses that turn Claude into your most valuable employee.",
   },
 };
 
