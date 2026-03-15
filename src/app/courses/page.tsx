@@ -20,6 +20,34 @@ export default function Courses() {
         </p>
       </div>
 
+      <p style={{ color: "var(--text-secondary)", fontSize: "0.9375rem", lineHeight: 1.7, maxWidth: 640, marginBottom: 32 }}>
+        From your first prompt to full business automation — pick the course that
+        matches where you are. Every course includes hands-on exercises, real-world
+        workflows, and lifetime access.
+      </p>
+
+      {/* Category filter labels */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 32 }}>
+        {["All", "Free", "Beginner", "Intermediate", "Advanced"].map((label) => (
+          <span
+            key={label}
+            style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "0.6875rem",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              padding: "6px 14px",
+              borderRadius: 6,
+              border: "1px solid var(--border)",
+              background: label === "All" ? "var(--accent)" : "var(--bg-surface)",
+              color: label === "All" ? "#000" : "var(--text-muted)",
+            }}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+
       <div className="features-grid" style={{ gap: 16 }}>
         {courses.map((course) => (
           <CourseCard key={course.slug} course={course} />

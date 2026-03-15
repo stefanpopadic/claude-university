@@ -22,6 +22,79 @@ export default function About() {
 
         <div className="sep-line" style={{ marginBottom: 56 }} />
 
+        {/* Numbers */}
+        <section style={{ marginBottom: 56 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+            {[
+              { number: "5", label: "Courses" },
+              { number: "15+", label: "Hours of content" },
+              { number: "30-day", label: "Money-back guarantee" },
+            ].map((stat) => (
+              <div
+                key={stat.label}
+                className="feature-card"
+                style={{ textAlign: "center", padding: "28px 16px" }}
+              >
+                <div style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--accent)", marginBottom: 4 }}>
+                  {stat.number}
+                </div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6875rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* What makes Clauni different */}
+        <section style={{ marginBottom: 56 }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 600, letterSpacing: "-0.02em", marginBottom: 20 }}>
+            What makes Clauni different
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div className="feature-card">
+              <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
+                Claude-only focus
+              </h3>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.6 }}>
+                We don&apos;t cover every AI tool under the sun. Clauni is 100%
+                dedicated to Claude — the models, Claude Code, MCP, the API, and
+                the full Anthropic ecosystem. Depth beats breadth.
+              </p>
+            </div>
+            <div className="feature-card">
+              <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
+                Built by a practitioner, not a guru
+              </h3>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.6 }}>
+                Stefan runs a real freelance business with Claude every day.
+                No fake screenshots, no inflated income claims. Just the workflows
+                and systems from someone in the trenches.
+              </p>
+            </div>
+            <div className="feature-card">
+              <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
+                Workflows from a real business
+              </h3>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.6 }}>
+                Every course, tutorial, and template comes from an actual business
+                — proposals that won projects, automations that saved hours, and
+                systems that replaced hiring. Nothing hypothetical.
+              </p>
+            </div>
+            <div className="feature-card">
+              <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "1.0625rem", marginBottom: 6 }}>
+                No fluff, no theory
+              </h3>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.6 }}>
+                You won&apos;t find 45-minute lectures about &quot;the future of
+                AI&quot; here. Every lesson is practical, actionable, and designed
+                to save you time or make you money — ideally both.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* What is Clauni */}
         <section style={{ marginBottom: 56 }}>
           <h2 style={{ fontSize: "1.5rem", fontWeight: 600, letterSpacing: "-0.02em", marginBottom: 20 }}>

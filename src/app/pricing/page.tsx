@@ -110,6 +110,84 @@ export default function Pricing() {
         ))}
       </div>
 
+      {/* Comparison table */}
+      <div style={{ marginTop: 56, overflowX: "auto" }}>
+        <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: 20 }}>
+          Compare plans
+        </h2>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: "0.875rem",
+          }}
+        >
+          <thead>
+            <tr>
+              <th style={{ textAlign: "left", padding: "12px 16px", borderBottom: "1px solid var(--border)", color: "var(--text-muted)", fontWeight: 500, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6875rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Feature</th>
+              <th style={{ textAlign: "center", padding: "12px 16px", borderBottom: "1px solid var(--border)", color: "var(--text-muted)", fontWeight: 500 }}>Free</th>
+              <th style={{ textAlign: "center", padding: "12px 16px", borderBottom: "1px solid var(--border)", color: "var(--text-muted)", fontWeight: 500 }}>Individual</th>
+              <th style={{ textAlign: "center", padding: "12px 16px", borderBottom: "1px solid var(--border)", color: "var(--accent)", fontWeight: 600 }}>All Access</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              { feature: "Claude Quickstart course", free: true, individual: true, all: true },
+              { feature: "Blog & tutorials", free: true, individual: true, all: true },
+              { feature: "Weekly newsletter", free: true, individual: true, all: true },
+              { feature: "Full course access", free: false, individual: "1 course", all: true },
+              { feature: "Hands-on exercises", free: false, individual: true, all: true },
+              { feature: "Downloadable resources", free: false, individual: true, all: true },
+              { feature: "Certificate of completion", free: false, individual: true, all: true },
+              { feature: "All future courses", free: false, individual: false, all: true },
+              { feature: "Priority support", free: false, individual: false, all: true },
+              { feature: "Early access to new content", free: false, individual: false, all: true },
+            ].map((row) => (
+              <tr key={row.feature}>
+                <td style={{ padding: "10px 16px", borderBottom: "1px solid var(--border)", color: "var(--text-secondary)" }}>{row.feature}</td>
+                {[row.free, row.individual, row.all].map((val, i) => (
+                  <td key={i} style={{ textAlign: "center", padding: "10px 16px", borderBottom: "1px solid var(--border)", color: val === true ? "var(--accent)" : val === false ? "var(--text-muted)" : "var(--text-secondary)" }}>
+                    {val === true ? "\u2713" : val === false ? "\u2014" : val}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* FAQs */}
+      <div style={{ marginTop: 56, maxWidth: 640 }}>
+        <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: 24 }}>
+          Frequently asked questions
+        </h2>
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          {[
+            {
+              q: "Is there a subscription or recurring fee?",
+              a: "No. Every purchase is a one-time payment. You get lifetime access to whatever you buy \u2014 no monthly charges, no surprise renewals.",
+            },
+            {
+              q: "What if I buy a course and it\u2019s not for me?",
+              a: "You\u2019re covered by a 30-day money-back guarantee. If you\u2019re not satisfied, email us and we\u2019ll refund you \u2014 no questions asked.",
+            },
+            {
+              q: "Does the All Access Pass include future courses?",
+              a: "Yes. When we launch new courses, they\u2019re automatically included in your All Access Pass at no extra cost. Buy once, learn everything.",
+            },
+            {
+              q: "Can I start with a free course and upgrade later?",
+              a: "Absolutely. Start with the free Claude Quickstart, and when you\u2019re ready to go deeper, buy individual courses or upgrade to All Access. No pressure.",
+            },
+          ].map((faq) => (
+            <div key={faq.q}>
+              <h3 style={{ fontSize: "0.9375rem", fontWeight: 600, marginBottom: 6 }}>{faq.q}</h3>
+              <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.6 }}>{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="sep-line" style={{ margin: "56px 0 32px" }} />
 
       <div style={{ maxWidth: 600 }}>

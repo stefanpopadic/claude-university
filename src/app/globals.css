@@ -277,10 +277,8 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 32px;
+  gap: 0;
   padding-top: 32px;
-  padding-bottom: 32px;
 }
 
 .hero-grid {
@@ -358,9 +356,8 @@ body {
 
 @media (min-width: 1024px) {
   .main-content {
-    gap: 48px;
-    padding-top: 0;
-    padding-bottom: 0;
+    gap: 0;
+    padding-top: 48px;
   }
 
   .hero-grid {
@@ -969,6 +966,20 @@ body {
 
 .waitlist-form--stacked .cta-button {
   width: 100%;
+}
+
+/* ---- 2-col features grid (What you'll learn) ---- */
+.features-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .features-grid-2col {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
 }
 
 /* ---- Reduced motion ---- */
