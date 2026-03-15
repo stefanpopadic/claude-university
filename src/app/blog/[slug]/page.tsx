@@ -18,34 +18,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-function renderContent(content: string) {
-  // Simple markdown-like rendering: split by double newlines for paragraphs,
-  // detect ## headers, ``` code blocks, and **bold**
-  const blocks = content.split("\n\n");
-  return blocks.map((block, i) => {
-    const trimmed = block.trim();
-    if (trimmed.startsWith("## ")) {
-      return <h2 key={i}>{trimmed.slice(3)}</h2>;
-    }
-    if (trimmed.startsWith("### ")) {
-      return <h3 key={i}>{trimmed.slice(4)}</h3>;
-    }
-    if (trimmed.startsWith("```")) {
-      const code = trimmed.replace(/^```\w*\n?/, "").replace(/```$/, "");
-      return <pre key={i}><code>{code}</code></pre>;
-    }
-    // Bold text
-    const parts = trimmed.split(/\*\*(.*?)\*\*/g);
-    return (
-      <p key={i}>
-        {parts.map((part, j) =>
-          j % 2 === 1 ? <strong key={j}>{part}</strong> : part
-        )}
-      </p>
-    );
-  });
-}
-
 function extractHeadings(content: string): string[] {
   return content
     .split("\n")
@@ -60,30 +32,77 @@ function headingToId(heading: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
-function renderContentWithIds(content: string) {
+function extractPullQuote(content: string): string | null {
   const blocks = content.split("\n\n");
-  return blocks.map((block, i) => {
+  // Find the first ~3 content blocks that are paragraphs, then take the first sentence of the 4th
+  let paragraphCount = 0;
+  for (const block of blocks) {
     const trimmed = block.trim();
+    if (trimmed.startsWith("##") || trimmed.startsWith("###") || trimmed.startsWith("```")) continue;
+    paragraphCount++;
+    if (paragraphCount === 4) {
+      // Strip bold markers for clean quote text
+      const clean = trimmed.replace(/\*\*(.*?)\*\*/g, "$1");
+      const firstSentence = clean.match(/^[^.!?]+[.!?]/);
+      return firstSentence ? firstSentence[0] : clean.slice(0, 120);
+    }
+  }
+  return null;
+}
+
+function renderContentWithPullQuote(content: string) {
+  const blocks = content.split("\n\n");
+  const pullQuote = extractPullQuote(content);
+  const elements: React.ReactNode[] = [];
+  let paragraphCount = 0;
+  let pullQuoteInserted = false;
+
+  for (let i = 0; i < blocks.length; i++) {
+    const trimmed = blocks[i].trim();
+    if (!trimmed) continue;
+
     if (trimmed.startsWith("## ")) {
       const text = trimmed.slice(3);
-      return <h2 key={i} id={headingToId(text)}>{text}</h2>;
-    }
-    if (trimmed.startsWith("### ")) {
-      return <h3 key={i}>{trimmed.slice(4)}</h3>;
-    }
-    if (trimmed.startsWith("```")) {
+      elements.push(<h2 key={i} id={headingToId(text)}>{text}</h2>);
+    } else if (trimmed.startsWith("### ")) {
+      elements.push(<h3 key={i}>{trimmed.slice(4)}</h3>);
+    } else if (trimmed.startsWith("```")) {
       const code = trimmed.replace(/^```\w*\n?/, "").replace(/```$/, "");
-      return <pre key={i}><code>{code}</code></pre>;
+      elements.push(<pre key={i}><code>{code}</code></pre>);
+    } else {
+      paragraphCount++;
+      const parts = trimmed.split(/\*\*(.*?)\*\*/g);
+      elements.push(
+        <p key={i}>
+          {parts.map((part, j) =>
+            j % 2 === 1 ? <strong key={j}>{part}</strong> : part
+          )}
+        </p>
+      );
+
+      // Insert pull quote after 3rd paragraph
+      if (paragraphCount === 3 && pullQuote && !pullQuoteInserted) {
+        pullQuoteInserted = true;
+        elements.push(
+          <blockquote
+            key="pull-quote"
+            style={{
+              borderLeft: "3px solid var(--accent)",
+              paddingLeft: 24,
+              margin: "32px 0",
+              fontSize: "1.25rem",
+              fontStyle: "italic",
+              lineHeight: 1.6,
+              color: "var(--text-primary)",
+            }}
+          >
+            {pullQuote}
+          </blockquote>
+        );
+      }
     }
-    const parts = trimmed.split(/\*\*(.*?)\*\*/g);
-    return (
-      <p key={i}>
-        {parts.map((part, j) =>
-          j % 2 === 1 ? <strong key={j}>{part}</strong> : part
-        )}
-      </p>
-    );
-  });
+  }
+  return elements;
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -144,14 +163,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </div>
 
-        {/* Author bio */}
+        {/* Author bio — text with border-bottom separator, no card bg */}
         <div
           style={{
-            padding: "16px 20px",
-            background: "var(--bg-surface)",
-            border: "1px solid var(--border)",
-            borderRadius: 8,
+            paddingBottom: 20,
             marginBottom: 32,
+            borderBottom: "1px solid var(--border)",
             fontSize: "0.8125rem",
             color: "var(--text-secondary)",
             lineHeight: 1.6,
@@ -162,15 +179,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           freelancers how to do the same.
         </div>
 
-        {/* Table of contents */}
+        {/* Table of contents — clean text links with numbers, no box */}
         {headings.length > 0 && (
           <nav
             style={{
-              padding: "20px 24px",
-              background: "var(--bg-surface)",
-              border: "1px solid var(--border)",
-              borderRadius: 8,
               marginBottom: 40,
+              paddingBottom: 24,
             }}
           >
             <div
@@ -179,8 +193,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             >
               In this article
             </div>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
-              {headings.map((heading) => (
+            <ol style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+              {headings.map((heading, i) => (
                 <li key={heading}>
                   <a
                     href={`#${headingToId(heading)}`}
@@ -189,21 +203,27 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                       textDecoration: "none",
                       fontSize: "0.875rem",
                       lineHeight: 1.4,
+                      display: "flex",
+                      alignItems: "baseline",
+                      gap: 10,
                     }}
                   >
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "var(--text-muted)", minWidth: 20 }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     {heading}
                   </a>
                 </li>
               ))}
-            </ul>
+            </ol>
           </nav>
         )}
 
         <div className="sep-line" style={{ marginBottom: 40 }} />
 
-        {/* Body */}
+        {/* Body with pull quote */}
         <div className="content-prose">
-          {renderContentWithIds(post.content)}
+          {renderContentWithPullQuote(post.content)}
         </div>
       </article>
 

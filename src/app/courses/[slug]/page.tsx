@@ -25,6 +25,16 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
   const badgeStatus = course.price === 0 ? "free" : course.status;
 
+  const whoIsThisFor = [
+    course.level === "advanced"
+      ? "You\u2019re already using Claude and want to unlock its full power with integrations and automation"
+      : "You\u2019re a solopreneur or freelancer looking to get more done in less time with AI",
+    course.price === 0
+      ? "You\u2019re curious about Claude and want a risk-free way to see what it can do"
+      : "You want practical, step-by-step workflows you can apply to your business today",
+    "You\u2019re tired of generic AI advice and want Claude-specific depth from someone who uses it daily",
+  ];
+
   return (
     <div className="page-container page-body">
       {/* Hero */}
@@ -61,12 +71,12 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           </div>
         </section>
 
-        {/* Curriculum */}
+        {/* Curriculum — zebra striping */}
         <section>
           <h2 style={{ fontSize: "1.5rem", fontWeight: 600, letterSpacing: "-0.02em", marginBottom: 20 }}>
             Curriculum
           </h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             {course.lessons.map((lesson, i) => (
               <div
                 key={i}
@@ -76,9 +86,8 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
                   justifyContent: "space-between",
                   gap: 16,
                   padding: "14px 20px",
-                  background: "var(--bg-surface)",
-                  border: "1px solid var(--border)",
-                  borderRadius: 8,
+                  background: i % 2 === 0 ? "rgba(255, 255, 255, 0.02)" : "transparent",
+                  borderRadius: 6,
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -95,53 +104,53 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
           </div>
         </section>
 
-        {/* Who this course is for */}
+        {/* Who this course is for — numbered list with accent numbers */}
         <section>
           <h2 style={{ fontSize: "1.5rem", fontWeight: 600, letterSpacing: "-0.02em", marginBottom: 20 }}>
             Who this course is for
           </h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {[
-              course.level === "advanced"
-                ? "You\u2019re already using Claude and want to unlock its full power with integrations and automation"
-                : "You\u2019re a solopreneur or freelancer looking to get more done in less time with AI",
-              course.price === 0
-                ? "You\u2019re curious about Claude and want a risk-free way to see what it can do"
-                : "You want practical, step-by-step workflows you can apply to your business today",
-              "You\u2019re tired of generic AI advice and want Claude-specific depth from someone who uses it daily",
-            ].map((point, i) => (
-              <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                <span style={{ color: "var(--accent)", fontWeight: 600, flexShrink: 0 }}>{"\u2192"}</span>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {whoIsThisFor.map((point, i) => (
+              <div key={i} style={{ display: "flex", gap: 14, alignItems: "baseline" }}>
+                <span style={{ color: "var(--accent)", fontWeight: 700, fontSize: "1.125rem", fontFamily: "'JetBrains Mono', monospace", flexShrink: 0 }}>
+                  {i + 1}.
+                </span>
                 <span style={{ color: "var(--text-secondary)", lineHeight: 1.6 }}>{point}</span>
               </div>
             ))}
           </div>
         </section>
 
-        {/* What's included */}
+        {/* What's included — horizontal strip with vertical dividers */}
         <section>
           <h2 style={{ fontSize: "1.5rem", fontWeight: 600, letterSpacing: "-0.02em", marginBottom: 20 }}>
             What&apos;s included
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 0,
+            }}
+          >
             {[
-              { icon: "\u221E", title: "Lifetime access", desc: "Buy once, learn forever. No subscriptions." },
-              { icon: "\u2191", title: "Free updates", desc: "Course gets better over time. You get every update." },
-              { icon: "\u2699", title: "Hands-on exercises", desc: "Real tasks to practice, not just videos to watch." },
-              { icon: "\u2193", title: "Downloadable resources", desc: "Templates, prompts, and workflows you can use right away." },
-            ].map((item) => (
+              { icon: "\u221E", title: "Lifetime access" },
+              { icon: "\u2191", title: "Free updates" },
+              { icon: "\u2699", title: "Hands-on exercises" },
+              { icon: "\u2193", title: "Downloadable resources" },
+            ].map((item, i, arr) => (
               <div
                 key={item.title}
-                className="feature-card"
-                style={{ padding: "20px" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "12px 24px",
+                  borderRight: i < arr.length - 1 ? "1px solid var(--border)" : "none",
+                }}
               >
-                <div style={{ fontSize: "1.25rem", marginBottom: 8, color: "var(--accent)" }}>{item.icon}</div>
-                <h3 style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "0.9375rem", marginBottom: 4 }}>
-                  {item.title}
-                </h3>
-                <p style={{ color: "var(--text-secondary)", fontSize: "0.8125rem", lineHeight: 1.5 }}>
-                  {item.desc}
-                </p>
+                <span style={{ fontSize: "1.125rem", color: "var(--accent)" }}>{item.icon}</span>
+                <span style={{ fontSize: "0.875rem", color: "var(--text-secondary)" }}>{item.title}</span>
               </div>
             ))}
           </div>

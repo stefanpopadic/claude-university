@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import EmailCaptureForm from "@/components/EmailCaptureForm";
+import HoverTableRow from "@/components/HoverTableRow";
 
 export const metadata: Metadata = {
   title: "Pricing — Clauni | Claude AI Courses",
@@ -58,10 +59,12 @@ const tiers = [
 export default function Pricing() {
   return (
     <div className="page-container page-body">
-      <div className="page-header">
-        <div className="mono-label" style={{ marginBottom: 16 }}>Pricing</div>
-        <h1>Simple, honest pricing</h1>
-        <p>
+      <div style={{ marginBottom: 48 }}>
+        <div className="mono-label" style={{ marginBottom: 12 }}>Pricing</div>
+        <h1 style={{ fontSize: "2.25rem", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 12 }}>
+          Simple, honest pricing
+        </h1>
+        <p style={{ color: "var(--text-secondary)", fontSize: "1.0625rem", lineHeight: 1.6, maxWidth: 520 }}>
           Start free. Go deep when you&apos;re ready. No subscriptions, no
           recurring fees — pay once, learn forever.
         </p>
@@ -72,6 +75,7 @@ export default function Pricing() {
           <div
             key={tier.name}
             className={`pricing-card${tier.featured ? " pricing-card--featured" : ""}`}
+            style={tier.featured ? { transform: "scale(1.02)" } : undefined}
           >
             {tier.featured && (
               <span className="mono-label" style={{ color: "var(--accent)", marginBottom: 8, display: "block" }}>
@@ -112,10 +116,9 @@ export default function Pricing() {
 
       {/* Comparison table */}
       <div style={{ marginTop: 56, overflowX: "auto" }}>
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: 20 }}>
-          Compare plans
-        </h2>
+        <div className="mono-label" style={{ marginBottom: 16 }}>Compare</div>
         <table
+          className="comparison-table"
           style={{
             width: "100%",
             borderCollapse: "collapse",
@@ -143,14 +146,14 @@ export default function Pricing() {
               { feature: "Priority support", free: false, individual: false, all: true },
               { feature: "Early access to new content", free: false, individual: false, all: true },
             ].map((row) => (
-              <tr key={row.feature}>
+              <HoverTableRow key={row.feature}>
                 <td style={{ padding: "10px 16px", borderBottom: "1px solid var(--border)", color: "var(--text-secondary)" }}>{row.feature}</td>
                 {[row.free, row.individual, row.all].map((val, i) => (
                   <td key={i} style={{ textAlign: "center", padding: "10px 16px", borderBottom: "1px solid var(--border)", color: val === true ? "var(--accent)" : val === false ? "var(--text-muted)" : "var(--text-secondary)" }}>
                     {val === true ? "\u2713" : val === false ? "\u2014" : val}
                   </td>
                 ))}
-              </tr>
+              </HoverTableRow>
             ))}
           </tbody>
         </table>
@@ -158,10 +161,8 @@ export default function Pricing() {
 
       {/* FAQs */}
       <div style={{ marginTop: 56, maxWidth: 640 }}>
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: 24 }}>
-          Frequently asked questions
-        </h2>
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <div className="mono-label" style={{ marginBottom: 24 }}>FAQ</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
           {[
             {
               q: "Is there a subscription or recurring fee?",
@@ -181,8 +182,8 @@ export default function Pricing() {
             },
           ].map((faq) => (
             <div key={faq.q}>
-              <h3 style={{ fontSize: "0.9375rem", fontWeight: 600, marginBottom: 6 }}>{faq.q}</h3>
-              <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.6 }}>{faq.a}</p>
+              <h3 style={{ fontSize: "0.9375rem", fontWeight: 600, marginBottom: 8 }}>{faq.q}</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", lineHeight: 1.7 }}>{faq.a}</p>
             </div>
           ))}
         </div>
@@ -190,7 +191,7 @@ export default function Pricing() {
 
       <div className="sep-line" style={{ margin: "56px 0 32px" }} />
 
-      <div style={{ maxWidth: 600 }}>
+      <div style={{ maxWidth: 600, borderLeft: "3px solid var(--accent)", paddingLeft: 24 }}>
         <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: 8 }}>
           Teams &amp; enterprise
         </h2>
@@ -208,7 +209,7 @@ export default function Pricing() {
 
       <div className="sep-line" style={{ margin: "48px 0 32px" }} />
 
-      <div style={{ maxWidth: 600 }}>
+      <div style={{ maxWidth: 600, borderLeft: "3px solid var(--accent)", paddingLeft: 24 }}>
         <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: 8 }}>
           30-day money-back guarantee
         </h2>

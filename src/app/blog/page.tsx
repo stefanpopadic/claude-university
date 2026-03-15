@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { blogPosts } from "@/data/blog-posts";
-import BlogPostCard from "@/components/BlogPostCard";
 
 export const metadata: Metadata = {
   title: "Blog — Clauni | Claude AI Tips, Tutorials & Workflows",
@@ -13,38 +12,30 @@ export default function Blog() {
 
   return (
     <div className="page-container page-body">
-      <div className="page-header">
-        <div className="mono-label" style={{ marginBottom: 16 }}>Blog</div>
-        <h1>The Clauni Playbook</h1>
-        <p>
-          Claude AI tutorials, workflows, and strategies for solopreneurs
-          who want to get more done with less.
-        </p>
-      </div>
-
-      {/* Featured post */}
+      {/* Featured post — full-width editorial hero */}
       {sorted.length > 0 && (
         <a
           href={`/blog/${sorted[0].slug}`}
-          className="feature-card"
           style={{
             display: "block",
-            padding: "32px 28px",
-            marginBottom: 32,
+            maxWidth: 720,
+            marginBottom: 56,
+            paddingTop: 48,
             textDecoration: "none",
             color: "inherit",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
             <span className="mono-label" style={{ color: "var(--accent)" }}>Featured</span>
+            <span className="mono-label">{sorted[0].category}</span>
             <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6875rem", color: "var(--text-muted)" }}>
               {sorted[0].readTime}
             </span>
           </div>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 700, letterSpacing: "-0.02em", marginBottom: 10, lineHeight: 1.25 }}>
+          <h1 style={{ fontSize: "2rem", fontWeight: 700, letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
             {sorted[0].title}
-          </h2>
-          <p style={{ color: "var(--text-secondary)", fontSize: "0.9375rem", lineHeight: 1.6, maxWidth: 560 }}>
+          </h1>
+          <p style={{ color: "var(--text-secondary)", fontSize: "1.0625rem", lineHeight: 1.7, maxWidth: 600 }}>
             {sorted[0].excerpt}
           </p>
           <span style={{ display: "inline-block", marginTop: 16, color: "var(--accent)", fontSize: "0.875rem", fontWeight: 500 }}>
@@ -53,11 +44,47 @@ export default function Blog() {
         </a>
       )}
 
-      {/* Remaining posts */}
-      <div className="features-grid" style={{ gap: 16 }}>
-        {sorted.slice(1).map((post) => (
-          <BlogPostCard key={post.slug} post={post} />
-        ))}
+      <div className="sep-line" style={{ marginBottom: 32 }} />
+
+      {/* Remaining posts — list layout */}
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {sorted.slice(1).map((post, i, arr) => {
+          const postDate = new Date(post.date).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          });
+          return (
+            <a
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "80px 1fr auto",
+                gap: 24,
+                padding: "20px 0",
+                borderBottom: i < arr.length - 1 ? "1px solid var(--border)" : "none",
+                textDecoration: "none",
+                color: "inherit",
+                alignItems: "baseline",
+              }}
+            >
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "var(--text-muted)", whiteSpace: "nowrap" }}>
+                {postDate}
+              </span>
+              <div>
+                <h3 style={{ fontSize: "1rem", fontWeight: 600, lineHeight: 1.3, marginBottom: 4 }}>
+                  {post.title}
+                </h3>
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.5 }}>
+                  {post.excerpt}
+                </p>
+              </div>
+              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.6875rem", color: "var(--text-muted)", whiteSpace: "nowrap", flexShrink: 0 }}>
+                {post.readTime}
+              </span>
+            </a>
+          );
+        })}
       </div>
     </div>
   );
